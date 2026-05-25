@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Multiple Choice | Kira's English</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+    
+    body { margin: 0; padding: 0; background-color: transparent; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+    
+    .wrapper { padding: 10px; width: 100%; max-width: 900px; margin: 0 auto; box-sizing: border-box; }
+    
+    .action-card { 
+      background: #000; border-left: 6px solid #FF0000; border-radius: 12px; 
+      padding: 30px; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7); 
+      box-sizing: border-box; transition: all 0.4s ease;
+    }
+    
+    .section-header { 
+      display: flex; justify-content: space-between; align-items: flex-end; 
+      margin-bottom: 20px; padding-bottom: 10px;
+    }
+
+    .header-title-container { display: flex; align-items: center; gap: 12px; border-bottom: 2.5px solid #FF0000; padding-bottom: 8px; width: 100%; justify-content: space-between; }
+    .header-title-container span.title-text { color: #ffffff; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    
+    .logo-bracket { width: 42px; height: 42px; background: #000; border-left: 3.5px solid #FF0000; border-radius: 5px; display: flex; align-items: center; justify-content: center; padding-left: 4px; box-sizing: border-box; }
+    .logo-bracket img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; }
+    
+    .header-left-group { display: flex; align-items: center; gap: 12px; }
+    #counter { font-size: 1rem; font-weight: 700; color: #888; white-space: nowrap; }
+
+    .progress-container { width: 100%; background: #222; height: 6px; border-radius: 3px; margin-bottom: 20px; overflow: hidden; }
+    .progress-bar { height: 100%; background: #FF0000; width: 0%; transition: width 0.4s ease, background 0.4s ease; }
+
+    .exercise-block { 
+      background: #111; 
+      padding: 25px; 
+      border-radius: 10px; border: 1px solid #222; 
+    }
+    
+    .question-text { 
+      color: #ffffff; font-size: 1.1rem; font-weight: 700; 
+      margin-bottom: 20px; 
+      line-height: 1.4; text-align: center; 
+    }
+    
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
+
+    .option-btn {
+      background: #000; border: 1px solid #444; border-radius: 8px;
+      padding: 15px 10px; 
+      color: white; font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
+    }
+
+    .option-btn:hover:not(:disabled) { border-color: #888; background: #050505; }
+
+    .option-btn.correct { 
+      background-color: #000 !important; border: 2px solid #00FF00 !important; 
+      color: #00FF00 !important; box-shadow: 0 0 10px rgba(0, 255, 0, 0.3); transform: scale(1.01);
+    }
+    
+    .option-btn.incorrect { 
+      background: #000 !important; border: 2px solid #FF0000 !important; 
+      color: #FF0000 !important; opacity: 1; 
+    }
+
+    .btn-next { 
+      width: 100%; max-width: 350px; background: #FF0000; color: white; border: none; 
+      padding: 15px; border-radius: 8px; font-weight: 700; font-family: 'Montserrat', sans-serif;
+      text-transform: uppercase; margin: 15px auto 0 auto; display: none; cursor: pointer;
+    }
+
+    .btn-next.next-correct { background: #00FF00 !important; color: #000 !important; }
+    .btn-next.next-incorrect { background: #FF0000 !important; color: #fff !important; }
+
+    .feedback { margin-top: 15px; font-weight: 700; display: none; padding: 6px; font-size: 1rem; text-align: center; text-transform: uppercase; }
+    
+    .finish-screen { text-align: center; color: white; display: none; padding: 15px 5px; }
+    .finish-screen h3 { font-size: 1.5rem; }
+    .score-val { font-size: 1.8rem; font-weight: 700; }
+    
+    .restart-btn {
+      width: 100%; max-width: 350px; margin: 20px auto 0 auto; padding: 15px !important;
+      cursor: pointer; font-weight: 700; font-family: 'Montserrat', sans-serif; border-radius: 8px; border: none !important; display: block;
+    }
+    
+    .restart-red { background: #FF0000 !important; color: #fff !important; }
+    .restart-green { background: #00FF00 !important; color: #000 !important; }
+
+    @media (max-width: 768px) {
+      .action-card { padding: 15px; border-left-width: 4px; }
+      .exercise-block { padding: 15px; }
+      .options-grid { grid-template-columns: 1fr; gap: 10px; }
+      .question-text { font-size: 0.95rem; }
+      .option-btn { padding: 12px 8px; font-size: 0.9rem; }
+      .logo-bracket { width: 36px; height: 36px; }
+      .logo-bracket img { width: 28px; height: 28px; }
+      .header-title-container span.title-text { font-size: 0.85rem; }
+      #counter { font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="action-card" id="main-card">
+    <div class="section-header" id="main-header">
+      <div class="header-title-container">
+        <div class="header-left-group">
+          <div class="logo-bracket"><img src="https://drive.google.com/thumbnail?id=1DQWHMZf7MpnzZBa3CbqqyJGLQEK6U4lZ" alt="Kira"></div>
+          <span class="title-text">MULTIPLE CHOICE</span>
+        </div>
+        <span id="counter">1/4</span>
+      </div>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <div id="quiz-content">
+      <div class="exercise-block">
+        <div class="question-text" id="q-text">Cargando...</div>
+        <div class="options-grid" id="options-container"></div>
+        <button class="btn-next" id="next-btn" onclick="nextQuestion()">Siguiente Pregunta →</button>
+        <div id="q-feedback" class="feedback"></div>
+      </div>
+    </div>
+
+    <div id="finish-screen" class="finish-screen">
+      <h3 id="finish-title" style="margin: 5px 0;">¡Terminado!</h3>
+      <p style="margin: 10px 0;">Puntaje: <span class="score-val" id="score-val">0</span>/4</p>
+      <p id="finish-msg" style="font-size: 0.9rem; color: #aaa; margin-bottom: 15px;"></p>
+      <button id="restart-btn" class="restart-btn" onclick="restartQuiz()">REINTENTAR</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const quizData = [
+    { 
+      q: "Si yo te pregunto 'Who are you?' (¿Quién eres?), ¿qué pronombre usas para hablar de TI MISMO?", 
+      options: ["You", "I", "He", "She"], 
+      correct: "I" 
+    },
+    { 
+      q: "Si hablas DIRECTAMENTE con una persona (Tú), ¿qué pronombre usas?", 
+      options: ["He", "She", "You", "It"], 
+      correct: "You" 
+    },
+    { 
+      q: "Estamos hablando de JENNA. Para decir que ELLA es alta sin usar su nombre, usas:", 
+      options: ["She", "He", "It", "You"], 
+      correct: "She" 
+    },
+    { 
+      q: "En la frase 'The dog is brown' (El perro es café), ¿qué pronombre reemplaza a EL PERRO (Cosa/Animal)?", 
+      options: ["He", "She", "It", "You"], 
+      correct: "It" 
+    }
+  ];
+
+  let currentIdx = 0;
+  let score = 0;
+
+  function loadQuestion() {
+    const nextBtn = document.getElementById('next-btn');
+    nextBtn.style.display = "none";
+    nextBtn.classList.remove('next-correct', 'next-incorrect');
+
+    const q = quizData[currentIdx];
+    document.getElementById('q-text').innerText = q.q;
+    document.getElementById('q-feedback').style.display = "none";
+    document.getElementById('counter').innerText = `${currentIdx + 1}/${quizData.length}`;
+    document.getElementById('progress-bar').style.width = `${((currentIdx + 1) / quizData.length) * 100}%`;
+
+    const container = document.getElementById('options-container');
+    container.innerHTML = "";
+    
+    q.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = "option-btn";
+      btn.innerText = opt;
+      btn.onclick = function() { handleAnswer(opt, this); };
+      container.appendChild(btn);
+    });
+  }
+
+  function handleAnswer(selected, btn) {
+    const q = quizData[currentIdx];
+    const allBtns = document.querySelectorAll('.option-btn');
+    const fb = document.getElementById('q-feedback');
+    const nb = document.getElementById('next-btn');
+    
+    allBtns.forEach(b => b.disabled = true);
+    fb.style.display = "block";
+
+    if (selected === q.correct) {
+      btn.classList.add('correct');
+      fb.style.color = "#00FF00";
+      fb.innerHTML = "¡CORRECTO! 🎉";
+      score++;
+      nb.classList.add('next-correct');
+    } else {
+      btn.classList.add('incorrect');
+      fb.style.color = "#FF0000";
+      fb.innerHTML = `Incorrecto ❌ (Respuesta: ${q.correct})`;
+      nb.classList.add('next-incorrect');
+      allBtns.forEach(b => { if(b.innerText === q.correct) b.classList.add('correct'); });
+    }
+    nb.style.display = "block";
+  }
+
+  function nextQuestion() {
+    currentIdx++;
+    if (currentIdx < quizData.length) {
+      loadQuestion();
+    } else {
+      showResults();
+    }
+  }
+
+  function showResults() {
+    document.getElementById('quiz-content').style.display = "none";
+    document.getElementById('finish-screen').style.display = "block";
+    
+    const scoreVal = document.getElementById('score-val');
+    const restartBtn = document.getElementById('restart-btn');
+    scoreVal.innerText = score;
+    
+    if (score === quizData.length) {
+      scoreVal.style.color = "#00FF00";
+      restartBtn.classList.add('restart-green');
+      restartBtn.classList.remove('restart-red');
+      document.getElementById('finish-msg').innerText = "¡Excelente trabajo! Dominas los pronombres perfectamente.";
+    } else {
+      scoreVal.style.color = "#FF0000";
+      restartBtn.classList.add('restart-red');
+      restartBtn.classList.remove('restart-green');
+      document.getElementById('finish-msg').innerText = "¡Sigue practicando para consolidar el contenido!";
+    }
+  }
+
+  function restartQuiz() {
+    currentIdx = 0;
+    score = 0;
+    document.getElementById('finish-screen').style.display = "none";
+    document.getElementById('quiz-content').style.display = "block";
+    loadQuestion();
+  }
+
+  window.onload = loadQuestion;
+</script>
+</body>
+</html>
