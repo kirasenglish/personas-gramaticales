@@ -80,7 +80,7 @@
     .feedback { margin-top: 15px; font-weight: 700; display: none; padding: 6px; font-size: 1rem; text-align: center; text-transform: uppercase; }
     
     .finish-screen { text-align: center; color: white; display: none; padding: 15px 5px; }
-    .finish-screen h3 { font-size: 1.5rem; }
+    .finish-screen h3 { font-size: 1.5rem; margin: 5px 0; }
     .score-val { font-size: 1.8rem; font-weight: 700; }
     
     .restart-btn {
@@ -114,7 +114,7 @@
           <div class="logo-bracket"><img src="https://drive.google.com/thumbnail?id=1DQWHMZf7MpnzZBa3CbqqyJGLQEK6U4lZ" alt="Kira"></div>
           <span class="title-text">MULTIPLE CHOICE</span>
         </div>
-        <span id="counter">1/4</span>
+        <span id="counter">1/8</span>
       </div>
     </div>
 
@@ -132,8 +132,9 @@
     </div>
 
     <div id="finish-screen" class="finish-screen">
-      <h3 id="finish-title" style="margin: 5px 0;">¡Terminado!</h3>
-      <p style="margin: 10px 0;">Puntaje: <span class="score-val" id="score-val">0</span>/4</p>
+      <h3 id="finish-title" style="margin: 5px 0;">¡Excelente Trabajo!</h3>
+      <p style="margin: 10px 0;">Práctica completada.</p>
+      <p style="margin: 10px 0;">Puntaje: <span class="score-val" id="score-val">0</span>/8</p>
       <p id="finish-msg" style="font-size: 0.9rem; color: #aaa; margin-bottom: 15px;"></p>
       <button id="restart-btn" class="restart-btn" onclick="restartQuiz()">REINTENTAR</button>
     </div>
@@ -161,6 +162,26 @@
       q: "En la frase 'The dog is brown' (El perro es café), ¿qué pronombre reemplaza a EL PERRO (Cosa/Animal)?", 
       options: ["He", "She", "It", "You"], 
       correct: "It" 
+    },
+    { 
+      q: "En la oración 'Jenna and Danny play soccer', ¿quién es el sujeto?", 
+      options: ["Play soccer", "Jenna and Danny", "Soccer", "Danny play"], 
+      correct: "Jenna and Danny" 
+    },
+    { 
+      q: "¿Qué elemento es OBLIGATORIO que aparezca siempre en el predicado?", 
+      options: ["Adjective", "Verb", "Noun", "Comma"], 
+      correct: "Verb" 
+    },
+    { 
+      q: "Si queremos reemplazar el sujeto 'England' (Inglaterra) por un pronombre, ¿cuál es el correcto?", 
+      options: ["He", "She", "It", "I"], 
+      correct: "It" 
+    },
+    { 
+      q: "¿Qué palabra en inglés significa 'y' en español?", 
+      options: ["And", "The", "I", "He"], 
+      correct: "And" 
     }
   ];
 
@@ -208,7 +229,7 @@
     } else {
       btn.classList.add('incorrect');
       fb.style.color = "#FF0000";
-      fb.innerHTML = `Incorrecto ❌ (Respuesta: ${q.correct})`;
+      fb.innerHTML = `Respuesta: ${q.correct} ❌`;
       nb.classList.add('next-incorrect');
       allBtns.forEach(b => { if(b.innerText === q.correct) b.classList.add('correct'); });
     }
@@ -236,7 +257,7 @@
       scoreVal.style.color = "#00FF00";
       restartBtn.classList.add('restart-green');
       restartBtn.classList.remove('restart-red');
-      document.getElementById('finish-msg').innerText = "¡Excelente trabajo! Dominas los pronombres perfectamente.";
+      document.getElementById('finish-msg').innerText = "¡Excelente trabajo! Dominas los contenidos perfectamente.";
     } else {
       scoreVal.style.color = "#FF0000";
       restartBtn.classList.add('restart-red');
